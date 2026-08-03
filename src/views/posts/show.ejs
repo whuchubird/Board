@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<article class="article-wrap">
+  <a class="back-link" href="/posts">← 목록으로</a>
+  <header class="article-header">
+    <p class="eyebrow">STORY</p>
+    <h1><%= post.title %></h1>
+    <div class="article-meta">
+      <span class="avatar avatar-large"><%= post.author.charAt(0).toUpperCase() %></span>
+      <div><strong><%= post.author %></strong><time datetime="<%= new Date(post.created_at).toISOString() %>"><%= formatDate(post.created_at) %></time></div>
+    </div>
+  </header>
+  <div class="article-body"><%= post.content %></div>
+  <% if (new Date(post.updated_at).getTime() > new Date(post.created_at).getTime() + 1000) { %>
+    <p class="updated-at">수정됨 · <%= formatDate(post.updated_at) %></p>
+  <% } %>
+  <footer class="article-footer">
+    <a class="button button-ghost" href="/posts">목록</a>
+    <% if (currentUser && String(currentUser.id) === String(post.author_id)) { %>
+      <div class="owner-actions">
+        <a class="button button-secondary" href="/posts/<%= post.id %>/edit">수정</a>
+        <form action="/posts/<%= post.id %>/delete" method="post" onsubmit="return confirm('이 글을 삭제할까요?')">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button class="button button-danger" type="submit">삭제</button>
+        </form>
+      </div>
+    <% } %>
+  </footer>
+</article>
+<%- include('../partials/footer') %>

@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+<section class="hero">
+  <div>
+    <p class="eyebrow">OUR STORIES</p>
+    <h1>오늘은 어떤 생각을<br>나누고 싶나요?</h1>
+    <p>소소한 일상부터 깊은 고민까지, 자유롭게 기록하고 나눠보세요.</p>
+  </div>
+  <% if (currentUser) { %>
+    <a class="button button-primary hero-action" href="/posts/new">새 글 작성하기 <span aria-hidden="true">→</span></a>
+  <% } else { %>
+    <a class="button button-primary hero-action" href="/login">로그인하고 글쓰기 <span aria-hidden="true">→</span></a>
+  <% } %>
+</section>
+
+<section class="posts-section">
+  <div class="section-heading">
+    <h2>최근 이야기</h2>
+    <span><%= posts.length %>개의 글</span>
+  </div>
+  <% if (posts.length === 0) { %>
+    <div class="empty-state">
+      <span aria-hidden="true">✦</span>
+      <h3>아직 등록된 글이 없습니다.</h3>
+      <p>첫 번째 이야기를 남겨보세요.</p>
+    </div>
+  <% } else { %>
+    <div class="post-list">
+      <% posts.forEach((post, index) => { %>
+        <article class="post-row">
+          <div class="post-number"><%= String(posts.length - index).padStart(2, '0') %></div>
+          <a class="post-summary" href="/posts/<%= post.id %>">
+            <h3><%= post.title %></h3>
+            <p><%= post.content.length > 90 ? post.content.slice(0, 90) + '…' : post.content %></p>
+            <div class="post-meta">
+              <span class="avatar"><%= post.author.charAt(0).toUpperCase() %></span>
+              <strong><%= post.author %></strong>
+              <span class="dot">·</span>
+              <time datetime="<%= new Date(post.created_at).toISOString() %>"><%= formatDate(post.created_at) %></time>
+            </div>
+          </a>
+          <a class="row-arrow" href="/posts/<%= post.id %>" aria-label="<%= post.title %> 읽기">↗</a>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+<%- include('../partials/footer') %>

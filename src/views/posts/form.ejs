@@ -1,0 +1,21 @@
+<%- include('../partials/header') %>
+<section class="editor-wrap">
+  <a class="back-link" href="<%= post.id ? '/posts/' + post.id : '/posts' %>">← 돌아가기</a>
+  <div class="editor-heading">
+    <p class="eyebrow">WRITE YOUR STORY</p>
+    <h1><%= heading %></h1>
+  </div>
+  <form class="card editor-card" action="<%= action %>" method="post">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if (error) { %><div class="form-error" role="alert"><%= error %></div><% } %>
+    <label for="title">제목</label>
+    <input class="title-input" id="title" name="title" type="text" value="<%= post.title || '' %>" maxlength="120" placeholder="이야기의 제목을 입력하세요" required autofocus>
+    <label for="content">내용</label>
+    <textarea id="content" name="content" rows="14" maxlength="10000" placeholder="당신의 이야기를 들려주세요." required><%= post.content || '' %></textarea>
+    <div class="form-actions">
+      <a class="button button-ghost" href="<%= post.id ? '/posts/' + post.id : '/posts' %>">취소</a>
+      <button class="button button-primary" type="submit"><%= post.id ? '수정 완료' : '게시하기' %></button>
+    </div>
+  </form>
+</section>
+<%- include('../partials/footer') %>

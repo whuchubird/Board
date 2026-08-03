@@ -1,0 +1,8 @@
+<%- include('partials/header') %>
+<section class="error-page">
+  <p class="error-code"><%= status %></p>
+  <h1><%= title %></h1>
+  <p><%= message %></p>
+  <a class="button button-primary" href="/posts">게시판으로 돌아가기</a>
+</section>
+<%- include('partials/footer') %>
